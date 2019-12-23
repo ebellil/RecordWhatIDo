@@ -1,1 +1,0 @@
-{"type":"keypress","char":"t"},{"type":"keypress","char":"e"},{"type":"keypress","char":"s"},{"type":"keypress","char":"t"},{"type":"mousedown","button":1,"x":1313,"y":851},{"type":"mouseup","button":1,"x":1313,"y":851},{"type":"mouseclick","button":1,"x":1313,"y":851}
