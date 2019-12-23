@@ -1,11 +1,6 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 const ioHook = require('iohook');
 const fs = require('fs');
+const readline = require('readline-sync')
 
 let chaine = [];
 ioHook.on("keypress", evt =>{
@@ -19,18 +14,17 @@ ioHook.on("keypress", evt =>{
     }
 });
 
-//Clicktest
+//Click
 ioHook.on("mouseclick",evt =>{
     let key = {
         "type" : (evt.type),
         "button" : (evt.button),
+        "clicks" : (evt.clicks),
         "x" : (evt.x),
         "y" : (evt.y)
     };
     chaine.push(JSON.stringify(key));
 });
-
-//ioHook.on("mousemove",function(msg){console.log(msg)});
 
 ioHook.on("mousewheel",function(msg){console.log(msg)});
 
@@ -55,16 +49,29 @@ ioHook.on("mouseup",evt =>{
     chaine.push(JSON.stringify(key)); 
 });
 
+ioHook.on("mousedrag", evt => {
+    let key = {
+        "type" : (evt.type),
+        "button" : (evt.button),
+        "x" : (evt.x),
+        "y" : (evt.y)
+    };
+    chaine.push(JSON.stringify(key)); 
+});
+
 //start ioHook
 ioHook.start();
 
-//testtestyuio
 ioHook.on("keyup", evt =>{
    
     if(evt.rawcode == "27"){
-        fs.writeFileSync("test.json", JSON.stringify(chaine));
-        ioHook.stop();
+       var file = readline.question("File's name ? : ");     
+       if(file != null){
+            fs.writeFileSync("./record/"+file+".json", JSON.stringify(chaine));
+            ioHook.stop();  
+            process.exit();
+        }
     }
-});//testrzsztest
+});
 
 
