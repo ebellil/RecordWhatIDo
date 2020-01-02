@@ -1,17 +1,26 @@
 const ioHook = require('iohook');
 const fs = require('fs');
 const readline = require('readline-sync')
+const electron = require('electron');
+var writeStream = fs.createWriteStream('./record/bot.json');
 
 let chaine = [];
+var buffer;
 ioHook.on("keypress", evt =>{
     let key =  {
         "type" : (evt.type),
         "char" : (String.fromCharCode(evt.keychar))
     };
+
     
-    if(evt.keychar != "27"){
-        chaine.push(JSON.stringify(key));
-    }
+    //if(evt.keychar != "27"){ //échap
+        chaine.push(key);//JSON.stringify(key)
+        buffer = new Buffer.from(JSON.stringify(key) + ',');
+
+        writeStream.write(buffer, 'utf8');
+
+       // console.log(JSON.stringify(key));
+    //}
 });
 
 //Click
@@ -23,7 +32,11 @@ ioHook.on("mouseclick",evt =>{
         "x" : (evt.x),
         "y" : (evt.y)
     };
-    chaine.push(JSON.stringify(key));
+    chaine.push(key);
+    buffer = new Buffer.from(JSON.stringify(key) + ',');
+
+    writeStream.write(buffer, 'utf8');
+
 });
 
 ioHook.on("mousewheel",function(msg){console.log(msg)});
@@ -36,7 +49,11 @@ ioHook.on("mousedown",evt =>{
         "x" : (evt.x),
         "y" : (evt.y)
     };
-    chaine.push(JSON.stringify(key));
+    chaine.push(key);
+    buffer = new Buffer.from(JSON.stringify(key)) + ',';
+
+    writeStream.write(buffer, 'utf8');
+
 });
 
 ioHook.on("mouseup",evt =>{
@@ -46,7 +63,11 @@ ioHook.on("mouseup",evt =>{
         "x" : (evt.x),
         "y" : (evt.y)
     };
-    chaine.push(JSON.stringify(key)); 
+    chaine.push(key); 
+    buffer = new Buffer.from(JSON.stringify(key) + ',');
+
+    writeStream.write(buffer, 'utf8');
+
 });
 
 ioHook.on("mousedrag", evt => {
@@ -56,22 +77,24 @@ ioHook.on("mousedrag", evt => {
         "x" : (evt.x),
         "y" : (evt.y)
     };
-    chaine.push(JSON.stringify(key)); 
+    chaine.push(key); 
+    buffer = new Buffer.from(JSON.stringify(key) + ',');
+
+    writeStream.write(buffer, 'utf8');
 });
 
 //start ioHook
 ioHook.start();
 
 ioHook.on("keyup", evt =>{
-   
-    if(evt.rawcode == "27"){
-       var file = readline.question("File's name ? : ");     
-       if(file != null){
-            fs.writeFileSync("./record/"+file+".json", JSON.stringify(chaine));
-            ioHook.stop();  
-            process.exit();
-        }
-    }
+    //if(evt.rawcode == "27"){ //echap
+       //var file = readline.question("File's name ? : ");     
+       //if(file != null){
+       //fs.writeFileSync("./record/test.json", chaine);
+            //ioHook.stop();  
+            //process.exit();
+        //}
+    //}
 });
 
 

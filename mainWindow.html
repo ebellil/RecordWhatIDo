@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RecordWhatIDo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <style>
+    footer {position: absolute; bottom: 0; left: 0; right: 0}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a class="brand-logo center">Record what I do</a>   
+    </div>
+  </nav>
+  <input id="pid" type="hidden"></input>
+  <ul></ul>
+
+<!-- <footer >
+  <div class="container">
+      <div class="row">
+          <div class="col s9">
+            <button class="waves-effect waves-light btn" onclick="stop()" >RECORD</button>
+          </div>
+          <div class="col s7"></div>
+            <button class="waves-effect waves-light btn" onclick="stop()" >STOP</button>
+          </div>
+      </div>
+  </div>
+</footer> -->
+
+  <script>
+    //const electron = require('electron');
+    const {ipcRenderer} = require('electron');
+    const ul = document.querySelector('ul');
+
+    ipcRenderer.on('item:add', function(e, item){
+      ul.className = 'collection';
+      const li = document.createElement('li');
+      li.className = 'collection-item';
+      const itemText = document.createTextNode(item);
+
+      li.appendChild(itemText);
+      ul.appendChild(li);
+    });
+
+    ipcRenderer.on('item:openfile', function(titre){
+      ul.className = 'collection';
+      const li = document.createElement('li');
+      li.className = 'collection-item';
+      let filePath = require('fs').readFileSync('./record/fileopened.txt').toString();
+      let play ='<a class="waves-effect waves-light btn"> PLAY </a>';
+      const itemText = document.createTextNode(filePath);
+
+      li.appendChild(itemText);
+      ul.appendChild(li);
+      //ul.appendChild(play);
+      var btn = document.createElement("BUTTON");
+      btn.innerHTML = "PLAY";
+      btn.onclick = function (){
+        var child_process = require ('child_process');
+          tmp = child_process.exec('node play.js');
+      }
+      document.body.appendChild(btn);
+      li.appendChild(btn);
+
+
+    });    
+
+    ipcRenderer.on('item:clear', function(){
+      ul.className = '';
+      ul.innerHTML = '';
+    });
+
+    ul.addEventListener('dblclick', removeItem);
+
+    function removeItem(e){
+      event.target.remove();
+      if(ul.children.length == 0){
+        ul.className = '';
+      }
+    }
+/*
+    function stop() {
+      var kill= require('./killprocess');
+      var elem = document.getElementById('pid');
+      alert(elem);
+    }
+    function start() {
+      var child_process = require ('child_process');
+      tmp = child_process.exec('node record.js');
+      document.getElementById('pid').innerHTML = tmp;
+    }
+  */
+  </script>
+</body>
+</html>

@@ -1,6 +1,10 @@
 {
     "name": "RecordWhatIDo",
     "version": "1.0.0",
+    "main": "electron.js",
+    "scripts": {
+        "start": "electron ."
+    },
     "keywords": [
         "util",
         "functional",
@@ -13,9 +17,11 @@
     "dependencies": {
         "are-we-there-yet": "^1.1.5",
         "asynckit": "^0.4.0",
+        "electron": "^1.7.6",
         "form-data": "^3.0.0",
         "iohook": "^0.6.2",
         "prebuild-install": "^5.3.3",
+        "ps-tree": "^1.2.0",
         "readline-sync": "^1.4.10",
         "robotjs": "^0.6.0",
         "string_decoder": "^1.3.0"
