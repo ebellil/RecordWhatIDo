@@ -81,7 +81,7 @@ function openDialog() {
 
       }
     );
-    console.log(file);
+    //console.log(file);
   app.on('ready', openDialog);
 }
 
@@ -102,21 +102,24 @@ const mainMenuTemplate =  [
       {
         label:'Open file',
         click(){
+          mainWindow.webContents.send('item:clear');
           openDialog();
           app.on('ready', openDialog);
         }
       },
       {
         label:'Start Record',
+        //accelerator:process.platform == 'darwin' ? 'Command+E' : 'Ctrl+E',
         click(){
+          //mainWindow.webContents.send('item:clear');
           console.log('Début enregistrement');          
           var child_process = require ('child_process');
-          //tmp = child_process.exec('xmacrorec2 -k 9 > /tmp/macro');
           tmp = child_process.exec('node record.js');
         }
       },
       {
         label:'Stop record',
+        //accelerator:process.platform == 'darwin' ? 'Command+F' : 'Ctrl+F',
         click(){
           console.log('Stopper enregistrement');
           kill.kill(tmp.pid);        
