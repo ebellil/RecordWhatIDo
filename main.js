@@ -18,7 +18,6 @@ if (record.length > 0) {
         if (line.type === "keypress") {
             robot.typeString(line.char);
         }
-
         //Action souris
         //Déplacer
         robot.setMouseDelay(500);
