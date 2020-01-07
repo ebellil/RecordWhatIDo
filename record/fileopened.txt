@@ -1,1 +1,1 @@
-/home/rado/Téléchargements/RecordWhatIDo/record/bot.json
+/home/rado/Téléchargements/RecordWhatIDo/record/souris.json

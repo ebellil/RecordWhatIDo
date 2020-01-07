@@ -4,12 +4,14 @@ const electron = require('electron');
 const path = require('path');
 const url = require('url');
 var kill= require('./killprocess');
-let tmp ;
+var dialog = require('electron').dialog;
+var dialog = require('electron').dialog;
+
+let tmp, tmp1 ;
 'use strict';
 
-//var app = require('electron').app;
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; 
 
-var dialog = require('electron').dialog;
 
 // SET ENV
 process.env.NODE_ENV = 'development';
@@ -74,11 +76,14 @@ function openDialog() {
       }, 
       function(filesPath) 
       {
-      file = filesPath.toString();
-       var child_process = require ('child_process');
-       child_process.exec('echo ' + file + ' > ./record/fileopened.txt');
-       mainWindow.webContents.send('item:openfile', file);
-
+        if (filesPath === undefined){
+        }
+        else{
+          file = filesPath.toString();
+          var child_process = require ('child_process');
+          child_process.exec('echo ' + file + ' > ./record/fileopened.txt');
+          mainWindow.webContents.send('item:openfile', file);
+        }
       }
     );
     //console.log(file);
@@ -109,9 +114,7 @@ const mainMenuTemplate =  [
       },
       {
         label:'Start Record',
-        //accelerator:process.platform == 'darwin' ? 'Command+E' : 'Ctrl+E',
         click(){
-          //mainWindow.webContents.send('item:clear');
           console.log('Début enregistrement');          
           var child_process = require ('child_process');
           tmp = child_process.exec('node record.js');
@@ -119,10 +122,30 @@ const mainMenuTemplate =  [
       },
       {
         label:'Stop record',
-        //accelerator:process.platform == 'darwin' ? 'Command+F' : 'Ctrl+F',
         click(){
           console.log('Stopper enregistrement');
-          kill.kill(tmp.pid);        
+          if(tmp == undefined){
+          }
+          else{
+                    kill.kill(tmp.pid);        
+                    var content = fs.readFileSync('./record/bot.json').toString();;
+                    dialog.showSaveDialog(function (fileName) {
+                      if (fileName === undefined){
+                          console.log("You didn't save the file");
+                          return;
+                      }
+                      
+                      fs.writeFile(fileName, content, function (err) {
+                          if(err){
+                              alert("An error ocurred creating the file "+ err.message)
+                          }
+                          
+                          console.log("The file has been succesfully saved");
+                      });
+                  }); 
+                  tmp=tmp1;
+                  //supprimer bot.json
+            }
         }//click
       },
 /*
@@ -132,12 +155,12 @@ const mainMenuTemplate =  [
           createAddWindow();
         }
       },*/
-      {
+      /*{
         label:'Clear Items',
         click(){
           mainWindow.webContents.send('item:clear');
         }
-      },
+      },*/
       {
         label: 'Quit',
         accelerator:process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
