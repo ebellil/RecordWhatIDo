@@ -9,7 +9,7 @@ var dialog = require('electron').dialog;
 
 let tmp, tmp1;
 'use strict';
-
+"test"
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
 
 
