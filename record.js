@@ -22,6 +22,7 @@ ioHook.on("keypress", evt => {
     let key = {
         "type": (evt.type),
         "char": (String.fromCharCode(evt.keychar)),
+        "code": (evt.rawcode),
         "interval": interval
     };
     //if(evt.keychar != "27"){ //échap

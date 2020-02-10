@@ -1,1 +1,1 @@
-/home/test/NetBeansProjects/RecordWhatIDo/record/testInterval4.txt
+/home/test/NetBeansProjects/RecordWhatIDo/record/testpoint.txt
