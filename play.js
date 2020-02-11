@@ -26,7 +26,6 @@ if (record.length > 0) {
 
         if (record[i - 1] != null) {
             prevLine = record[i - 1];
-            console.log(line.interval - prevLine.interval)
             interval = line.interval - prevLine.interval;
             if (interval != 0) {
                 sleep.msleep(line.interval - prevLine.interval);
@@ -35,17 +34,17 @@ if (record.length > 0) {
 
         if (line.type === "keypress") {
             console.log("keypress")
-            if (line != prevLine) {
+            if (line !== prevLine) {
                 if (line.code == "65454") {
                     console.log(".")
-                    ks.sendKeys(['decimal']);
+                    ks.sendKey(['decimal']);
                 } else if (line.code == "65288") {
                     console.log("supprimer")
-                    ks.sendKeys(['back_space']);
+                    ks.sendKey(['back_space']);
                 } else if (line.code == "65293") {
-                    ks.sendKeys(['enter']);
+                    ks.sendKey(['enter']);
                 } else {
-                    robot.typeString(line.char);
+                     ks.sendKey([line.char]);
                 }
             }
         }

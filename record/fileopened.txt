@@ -1,1 +1,1 @@
-/home/test/NetBeansProjects/RecordWhatIDo/record/testpoint.txt
+/home/test/NetBeansProjects/RecordWhatIDo/record/testYoutube.txt
